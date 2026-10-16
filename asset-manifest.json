@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/agriculture-management-system/static/css/main.983a9855.css",
+    "main.js": "/agriculture-management-system/static/js/main.e7f1e85c.js",
+    "index.html": "/agriculture-management-system/index.html",
+    "main.983a9855.css.map": "/agriculture-management-system/static/css/main.983a9855.css.map",
+    "main.e7f1e85c.js.map": "/agriculture-management-system/static/js/main.e7f1e85c.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.983a9855.css",
+    "static/js/main.e7f1e85c.js"
+  ]
+}
