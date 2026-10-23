@@ -3,7 +3,11 @@ import {
   selectAllCrops,
   selectSoldQtyByCrop,
 } from "./cropSelectors";
-import { selectOrderItems, selectBuyerItems, selectInventoryItems } from "./entitySelectors";
+import {
+  selectOrderItems,
+  selectBuyerItems,
+  selectInventoryItems,
+} from "./entitySelectors";
 import { selectTaskRows } from "./taskSelectors";
 
 /* Harvest & Orders summary numbers — computed once, in a selector. */
@@ -92,4 +96,48 @@ export const selectDashboardStats = createSelector(
     openTasks: tasks.filter((task) => task.computedStatus !== "Done").length,
     overdueTasks: tasks.filter((task) => task.computedStatus === "Overdue").length,
   })
+);
+
+const SERIES_MONTHS = 6;
+
+function seriesMonthKeys() {
+  const keys = [];
+  const now = new Date();
+  for (let i = SERIES_MONTHS - 1; i >= 0; i -= 1) {
+    const date = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    keys.push(`${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`);
+  }
+  return keys;
+}
+
+function labelFor(key) {
+  const [year, month] = key.split("-").map(Number);
+  return new Date(year, month - 1, 1).toLocaleDateString("en-GB", { month: "short" });
+}
+
+/* Monthly harvest (kg cut) vs sales (kg sold) for the HarvestChart. */
+export const selectHarvestVsSalesSeries = createSelector(
+  [selectAllCrops, selectOrderItems, selectBuyerItems],
+  (crops, orders, buyers) =>
+    seriesMonthKeys().map((key) => {
+      const harvest = crops
+        .filter((crop) => String(crop.cuttingDate || "").slice(0, 7) === key)
+        .reduce((sum, crop) => sum + (Number(crop.harvestQty) || 0), 0);
+      const orderQty = orders
+        .filter(
+          (order) =>
+            String(order.orderDate || "").slice(0, 7) === key &&
+            order.status !== "Cancelled"
+        )
+        .reduce((sum, order) => sum + (Number(order.quantity) || 0), 0);
+      const buyerQty = buyers
+        .filter((buyer) => String(buyer.date || "").slice(0, 7) === key)
+        .reduce((sum, buyer) => sum + (Number(buyer.quantity) || 0), 0);
+      return {
+        month: key,
+        label: labelFor(key),
+        harvest,
+        sales: orderQty + buyerQty,
+      };
+    })
 );

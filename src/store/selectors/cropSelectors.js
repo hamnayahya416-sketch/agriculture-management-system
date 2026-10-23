@@ -68,3 +68,51 @@ export const selectCropNames = createSelector([selectAllCrops], (crops) => {
   });
   return map;
 });
+
+/* Crops by health status — drives the doughnut chart. */
+export const selectHealthStatusCounts = createSelector([selectAllCrops], (crops) => {
+  const counts = { Healthy: 0, "Needs Attention": 0, Critical: 0 };
+  crops.forEach((crop) => {
+    const key = counts[crop.status] !== undefined ? crop.status : "Needs Attention";
+    counts[key] += 1;
+  });
+  return Object.keys(counts).map((name) => ({ name, value: counts[name] }));
+});
+
+/* Filter (by health / search) + sort (date / quantity / name) live here,
+   never inside components. */
+export const selectVisibleCrops = createSelector(
+  [selectStockRows, (_, view) => view || {}],
+  (crops, view) => {
+    const health = view.health || "All";
+    const query = String(view.query || "").trim().toLowerCase();
+    const sort = view.sort || "cuttingDate";
+
+    let rows = crops.filter(
+      (crop) => health === "All" || crop.status === health
+    );
+
+    if (query) {
+      rows = rows.filter((crop) =>
+        [crop.name, crop.field, crop.category].some((field) =>
+          String(field || "").toLowerCase().includes(query)
+        )
+      );
+    }
+
+    rows = [...rows].sort((a, b) => {
+      if (sort === "quantity") {
+        return (Number(b.harvestQty) || 0) - (Number(a.harvestQty) || 0);
+      }
+      if (sort === "name") {
+        return String(a.name).localeCompare(String(b.name));
+      }
+      if (sort === "health") {
+        return (Number(b.healthScore) || 0) - (Number(a.healthScore) || 0);
+      }
+      return String(a.cuttingDate || "").localeCompare(String(b.cuttingDate || ""));
+    });
+
+    return rows;
+  }
+);

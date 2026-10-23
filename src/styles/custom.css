@@ -632,3 +632,102 @@ a.nav-item {
     background: #fff;
   }
 }
+
+/* ======================================================== crop toolbar */
+.crop-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.toolbar-select {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 12.5px;
+  cursor: pointer;
+  max-width: 170px;
+}
+
+.row-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.row-actions .icon-btn {
+  width: 32px;
+  height: 32px;
+}
+
+.row-actions .icon-btn:hover {
+  color: var(--primary);
+  border-color: var(--secondary);
+}
+
+/* ====================================================== summary cards */
+.summary-kpis {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+}
+
+.summary-kpi {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.summary-kpi__icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  background: var(--soft-green);
+  color: var(--primary);
+  margin-bottom: 4px;
+}
+
+.summary-kpi__icon--blue {
+  background: var(--info-soft);
+  color: var(--info);
+}
+
+.summary-kpi__icon--amber {
+  background: var(--warning-soft);
+  color: var(--warning);
+}
+
+.summary-kpi__icon--violet {
+  background: var(--violet-soft);
+  color: var(--violet);
+}
+
+.summary-kpi__icon--green {
+  background: var(--soft-green);
+  color: var(--primary);
+}
+
+.summary-kpi__label {
+  font-size: 11.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+}
+
+.summary-kpi b {
+  font-size: 21px;
+  line-height: 1.2;
+}
+
+.production-row--low .progress__fill {
+  background: var(--warning);
+}

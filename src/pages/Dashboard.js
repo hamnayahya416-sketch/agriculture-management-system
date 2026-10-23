@@ -3,18 +3,22 @@ import { useSelector } from "react-redux";
 import PageHeader from "../common/PageHeader";
 import StatCard from "../common/StatCard";
 import Card from "../common/Card";
-import StatusBadge from "../common/StatusBadge";
 import WeatherCard from "../dashboard/WeatherCard";
 import AlertsPanel from "../dashboard/AlertsPanel";
-import {
-  selectAllCrops,
-} from "../store/selectors/cropSelectors";
-import {
-  selectDashboardStats,
-} from "../store/selectors/summarySelectors";
+import CropHealthList from "../dashboard/CropHealthList";
+import CropHealthChart from "../dashboard/CropHealthChart";
+import CuttingSchedule from "../dashboard/CuttingSchedule";
+import { selectDashboardStats } from "../store/selectors/summarySelectors";
 import { selectLowStock } from "../store/selectors/selectLowStock";
 import { selectRecentActivity } from "../store/selectors/reportSelectors";
-import { formatNumber, formatTonnes, formatMoney, formatTodayLong, formatTimestamp, timeGreeting } from "../utils/formatters";
+import {
+  formatNumber,
+  formatTonnes,
+  formatMoney,
+  formatTodayLong,
+  formatTimestamp,
+  timeGreeting,
+} from "../utils/formatters";
 import {
   IconAlert,
   IconBox,
@@ -26,7 +30,6 @@ import {
 
 export default function Dashboard() {
   const stats = useSelector(selectDashboardStats);
-  const crops = useSelector(selectAllCrops);
   const lowStock = useSelector(selectLowStock);
   const activity = useSelector(selectRecentActivity);
 
@@ -72,7 +75,7 @@ export default function Dashboard() {
           tone="green"
           label="Delivered Revenue"
           value={formatMoney(stats.revenue)}
-          note={`From ${stats.totalOrders} orders · ${stats.buyerCount} buyers`}
+          note={`${stats.openTasks} open tasks · ${stats.overdueTasks} overdue`}
         />
       </div>
 
@@ -89,55 +92,19 @@ export default function Dashboard() {
 
       <div className="grid">
         <div className="span-8">
-          <Card
-            title="Crop Information"
-            subtitle="Types of crops, quantities and health status"
-            action={
-              <Link className="btn btn--ghost btn--sm" to="/crops">
-                Manage crops
-              </Link>
-            }
-          >
-            <div className="table-wrap">
-              <table className="table">
-                <thead>
-                  <tr>
-                    <th>Crop</th>
-                    <th>Category</th>
-                    <th>Harvest qty</th>
-                    <th>Field</th>
-                    <th>Health</th>
-                    <th>Cutting date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {crops.map((crop) => (
-                    <tr key={crop.id}>
-                      <td>
-                        <span className="cell-title">{crop.name}</span>
-                        <span className="cell-sub">
-                          CRP-{String(crop.id).padStart(3, "0")}
-                        </span>
-                      </td>
-                      <td>{crop.category}</td>
-                      <td className="nowrap">
-                        <b>{formatNumber(crop.harvestQty)}</b> {crop.unit}
-                      </td>
-                      <td>{crop.field}</td>
-                      <td>
-                        <StatusBadge>{crop.status}</StatusBadge>
-                      </td>
-                      <td className="nowrap">{crop.cuttingDate}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </Card>
+          <CropHealthList />
         </div>
 
         <div className="span-4">
           <WeatherCard />
+        </div>
+
+        <div className="span-4">
+          <CropHealthChart />
+        </div>
+
+        <div className="span-8">
+          <CuttingSchedule />
         </div>
 
         <div className="span-5">
