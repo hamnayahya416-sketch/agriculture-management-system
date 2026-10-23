@@ -890,3 +890,138 @@ a.nav-item {
   font-weight: 650;
   word-break: break-word;
 }
+
+/* ============================================================== task board */
+.task-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.task-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 13px 4px;
+  border-bottom: 1px solid var(--border);
+}
+
+.task-row:last-child {
+  border-bottom: none;
+}
+
+.task-row--overdue {
+  background: linear-gradient(90deg, rgba(220, 38, 38, 0.05), transparent 60%);
+  border-radius: 10px;
+}
+
+.task-check {
+  border: none;
+  background: none;
+  padding: 0;
+  color: var(--border);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: color 0.15s ease;
+  flex-shrink: 0;
+}
+
+.task-check:hover:not(:disabled) {
+  color: var(--primary);
+}
+
+.task-check:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.task-row--done .task-check {
+  color: var(--primary);
+}
+
+.task-row__body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.task-row__title {
+  font-weight: 650;
+  font-size: 14.5px;
+}
+
+.task-row__title.is-done {
+  text-decoration: line-through;
+  color: var(--muted);
+}
+
+.task-row__meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.task-row__due {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12.5px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.task-row .row-actions {
+  flex-shrink: 0;
+}
+
+/* ============================================================== reports */
+.report-block {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.report-block__title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.summary-kpi--positive {
+  border-color: var(--primary);
+}
+
+.summary-kpi--positive b {
+  color: var(--primary);
+}
+
+.summary-kpi--negative {
+  border-color: var(--danger);
+}
+
+.summary-kpi--negative b {
+  color: var(--danger);
+}
+
+.field--inline {
+  flex-direction: row;
+  align-items: center;
+  gap: 9px;
+}
+
+.field--inline span {
+  white-space: nowrap;
+}
+
+.activity--full {
+  max-height: 420px;
+  overflow-y: auto;
+}
