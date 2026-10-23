@@ -731,3 +731,162 @@ a.nav-item {
 .production-row--low .progress__fill {
   background: var(--warning);
 }
+
+/* ============================================================== buyers */
+.field__hint {
+  color: var(--muted);
+}
+
+.upload__error {
+  display: block;
+  margin-top: 8px;
+  font-style: normal;
+  font-size: 12.5px;
+  font-weight: 550;
+  color: var(--danger);
+}
+
+.form-error {
+  margin-top: 16px;
+  padding: 10px 13px;
+  border: 1px solid var(--danger);
+  background: #fef2f2;
+  border-radius: 10px;
+  color: var(--danger);
+  font-size: 13.5px;
+}
+
+.form-done-note {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.icon-btn--danger {
+  color: var(--danger);
+}
+
+.icon-btn--danger:hover {
+  background: #fef2f2;
+}
+
+.role-note {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 13px;
+  border: 1px dashed var(--border);
+  border-radius: 10px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.cnic-input {
+  letter-spacing: 0.06em;
+}
+
+.buyer-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.buyer-count {
+  font-size: 12.5px;
+  font-weight: 650;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.buyer-thumb {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--border);
+  background: var(--bg);
+  display: block;
+}
+
+.modal--wide {
+  width: min(640px, 100%);
+}
+
+.modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.modal__header h3 {
+  margin-bottom: 0;
+}
+
+.buyer-details {
+  display: flex;
+  gap: 22px;
+  align-items: flex-start;
+}
+
+.buyer-details__photo {
+  border: none;
+  padding: 0;
+  background: none;
+  cursor: zoom-in;
+  flex-shrink: 0;
+}
+
+.buyer-details__photo img {
+  width: 130px;
+  height: 130px;
+  object-fit: cover;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  transition: width 0.2s ease, height 0.2s ease;
+}
+
+.buyer-details__photo.is-zoomed {
+  cursor: zoom-out;
+}
+
+.buyer-details__photo.is-zoomed img {
+  width: 300px;
+  height: 300px;
+}
+
+.buyer-details__info h4 {
+  margin-bottom: 2px;
+  font-size: 17px;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 14px 0 0;
+}
+
+.details-grid div {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 9px 12px;
+}
+
+.details-grid dt {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+}
+
+.details-grid dd {
+  margin: 3px 0 0;
+  font-size: 14px;
+  font-weight: 650;
+  word-break: break-word;
+}

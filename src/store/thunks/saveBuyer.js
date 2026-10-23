@@ -22,7 +22,14 @@ export const saveBuyer = createAsyncThunk(
     if (!crop) return rejectWithValue("Please choose a valid crop.");
 
     const available = selectAvailableStockById(state, crop.id);
-    const quantityError = validateQuantity(input.quantity, available);
+    const existing = input.id
+      ? state.buyers.items.find((entry) => String(entry.id) === String(input.id))
+      : null;
+    const refund =
+      existing && String(existing.cropId) === String(crop.id)
+        ? Number(existing.quantity) || 0
+        : 0;
+    const quantityError = validateQuantity(input.quantity, available + refund);
     if (quantityError) return rejectWithValue(quantityError);
 
     const cnic = digitsOf(input.cnic);
