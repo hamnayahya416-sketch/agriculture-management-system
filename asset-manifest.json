@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/agriculture-management-system/static/css/main.5fa9819d.css",
-    "main.js": "/agriculture-management-system/static/js/main.06f14f49.js",
+    "main.css": "/agriculture-management-system/static/css/main.e9d27b50.css",
+    "main.js": "/agriculture-management-system/static/js/main.d6adfe40.js",
     "index.html": "/agriculture-management-system/index.html",
-    "main.5fa9819d.css.map": "/agriculture-management-system/static/css/main.5fa9819d.css.map",
-    "main.06f14f49.js.map": "/agriculture-management-system/static/js/main.06f14f49.js.map"
+    "main.e9d27b50.css.map": "/agriculture-management-system/static/css/main.e9d27b50.css.map",
+    "main.d6adfe40.js.map": "/agriculture-management-system/static/js/main.d6adfe40.js.map"
   },
   "entrypoints": [
-    "static/css/main.5fa9819d.css",
-    "static/js/main.06f14f49.js"
+    "static/css/main.e9d27b50.css",
+    "static/js/main.d6adfe40.js"
   ]
 }
