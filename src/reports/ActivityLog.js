@@ -7,7 +7,7 @@ import { selectActivityItems } from "../store/selectors/entitySelectors";
 import { formatTimestamp } from "../utils/formatters";
 import useDebounce from "../hooks/useDebounce";
 
-const ACTION_FILTERS = ["All", "added", "updated", "removed", "logged in"];
+const ACTION_FILTERS = ["All", "added", "updated", "removed", "used", "logged in", "logged out"];
 
 export default function ActivityLog() {
   const activity = useSelector(selectActivityItems);

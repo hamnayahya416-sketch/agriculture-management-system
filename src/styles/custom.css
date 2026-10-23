@@ -1025,3 +1025,126 @@ a.nav-item {
   max-height: 420px;
   overflow-y: auto;
 }
+
+/* ================================================= phase 5 dark polish */
+:root[data-theme="dark"] .form-error {
+  background: rgba(220, 38, 38, 0.12);
+}
+
+:root[data-theme="dark"] .icon-btn--danger:hover {
+  background: rgba(220, 38, 38, 0.16);
+}
+
+:root[data-theme="dark"] .upload__box {
+  background: var(--bg);
+}
+
+:root[data-theme="dark"] .details-grid div {
+  background: var(--bg);
+}
+
+:root[data-theme="dark"] .summary-kpi {
+  background: var(--bg);
+}
+
+:root[data-theme="dark"] .task-row--overdue {
+  background: linear-gradient(90deg, rgba(220, 38, 38, 0.14), transparent 60%);
+}
+
+:root[data-theme="dark"] .buyer-thumb {
+  background: var(--bg);
+}
+
+/* ================================================= phase 5 responsive */
+@media (max-width: 1023px) {
+  .buyer-details__photo.is-zoomed img {
+    width: 220px;
+    height: 220px;
+  }
+}
+
+@media (max-width: 720px) {
+  .crop-toolbar,
+  .buyer-toolbar {
+    justify-content: flex-start;
+    width: 100%;
+  }
+
+  .page-head__actions {
+    flex-wrap: wrap;
+  }
+
+  .task-row {
+    flex-wrap: wrap;
+    row-gap: 8px;
+  }
+
+  .task-row__meta {
+    order: 3;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .task-row .row-actions {
+    order: 4;
+    margin-left: auto;
+  }
+
+  .buyer-details {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .buyer-details__info {
+    width: 100%;
+  }
+
+  .details-grid {
+    grid-template-columns: 1fr;
+    text-align: left;
+  }
+
+  .modal--wide {
+    padding: 18px;
+  }
+
+  .summary-kpis {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+
+  .form-done-note {
+    display: none;
+  }
+
+  .report-kpis {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+}
+
+/* ==================================================== phase 5 print */
+@media print {
+  .btn,
+  .icon-btn,
+  .chip-row,
+  .toolbar-select,
+  .search,
+  .crop-toolbar,
+  .buyer-toolbar,
+  .row-actions,
+  .task-check,
+  .page-head__actions,
+  .upload,
+  .form-actions {
+    display: none !important;
+  }
+
+  .card,
+  .modal {
+    box-shadow: none;
+  }
+
+  .grid > * {
+    break-inside: avoid;
+  }
+}
