@@ -1,0 +1,634 @@
+/* ====================================================== AgriCore additions
+   Extra styles for the Redux edition: loaders, modals, auth, gauges,
+   alerts, dark mode, print view. Loaded after index.css so it wins. */
+
+/* ============================================================== loader */
+.loader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 4px;
+  color: var(--muted);
+  font-size: 13.5px;
+}
+
+.loader--full {
+  justify-content: center;
+  padding: 44px 16px;
+}
+
+.loader__spinner {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  border-top-color: var(--secondary);
+  animation: loader-spin 0.7s linear infinite;
+}
+
+@keyframes loader-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ============================================================== modal */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(2px);
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  z-index: 90;
+}
+
+.modal {
+  width: min(430px, 100%);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  padding: 22px;
+}
+
+.modal h3 {
+  font-size: 17px;
+  margin-bottom: 8px;
+}
+
+.modal p {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+/* ============================================================== auth */
+.login-page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background:
+    radial-gradient(1000px 500px at 10% -10%, var(--soft-green), transparent 60%),
+    radial-gradient(800px 400px at 110% 110%, var(--info-soft), transparent 60%),
+    var(--bg);
+}
+
+.login-card {
+  width: min(430px, 100%);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow-md);
+  padding: 30px 28px;
+}
+
+.login-card__brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.login-card__brand b {
+  display: block;
+  font-size: 17px;
+}
+
+.login-card__brand small {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.login-card h1 {
+  font-size: 22px;
+  margin-bottom: 6px;
+}
+
+.login-card > p {
+  font-size: 14px;
+  margin-bottom: 18px;
+}
+
+.login-card__note {
+  margin-top: 18px;
+  font-size: 11.5px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.login-form__icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: var(--soft-green);
+  color: var(--primary);
+  display: grid;
+  place-items: center;
+  margin-bottom: 2px;
+}
+
+.login-form__submit {
+  width: 100%;
+  justify-content: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.login-form__demo {
+  border-top: 1px dashed var(--border);
+  padding-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.login-form__demo-title {
+  font-size: 11.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+.login-form__demo-chip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  border: 1px dashed var(--border);
+  background: var(--bg);
+  border-radius: 10px;
+  padding: 9px 12px;
+  font-size: 12.5px;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.login-form__demo-chip:hover {
+  border-color: var(--secondary);
+  color: var(--text);
+}
+
+.login-form__demo-chip b {
+  color: var(--primary);
+  font-size: 12.5px;
+}
+
+/* =========================================================== humidity */
+.humidity-gauge {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.humidity-gauge__dial {
+  --gauge-angle: 0deg;
+  --gauge-color: var(--secondary);
+  width: 106px;
+  height: 106px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  background: conic-gradient(
+    var(--gauge-color) var(--gauge-angle),
+    var(--border) 0
+  );
+}
+
+.humidity-gauge__inner {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--surface);
+  display: grid;
+  place-items: center;
+  align-content: center;
+  text-align: center;
+  line-height: 1.15;
+  border: 1px solid var(--border);
+}
+
+.humidity-gauge__inner strong {
+  font-size: 20px;
+}
+
+.humidity-gauge__inner span {
+  font-size: 10.5px;
+  color: var(--muted);
+}
+
+.humidity-gauge--green {
+  --gauge-color: #22c55e;
+}
+.humidity-gauge--amber {
+  --gauge-color: #f59e0b;
+}
+.humidity-gauge--red {
+  --gauge-color: #ef4444;
+}
+.humidity-gauge--grey {
+  --gauge-color: #94a3b8;
+}
+
+.humidity-gauge__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+/* ============================================================ weather */
+.weather-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.weather-updating {
+  display: inline-block;
+  font-size: 11.5px;
+  color: var(--info);
+  background: var(--info-soft);
+  border-radius: 999px;
+  padding: 3px 10px;
+  margin-bottom: 10px;
+}
+
+.weather-stale {
+  font-size: 12px;
+  color: var(--warning);
+  margin-bottom: 10px;
+}
+
+.weather-error {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+.weather-error p {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.weather-icons-row {
+  display: none;
+}
+
+.forecast {
+  grid-template-columns: repeat(auto-fit, minmax(74px, 1fr));
+}
+
+/* ======================================================== alerts / bell */
+.bell__count {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  min-width: 17px;
+  height: 17px;
+  padding: 0 4px;
+  border-radius: 9px;
+  background: var(--danger);
+  color: #fff;
+  font-size: 10.5px;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+  border: 2px solid var(--surface);
+}
+
+.bell__panel ul {
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.bell__dismiss {
+  border: none;
+  background: none;
+  color: var(--muted);
+  font-size: 11px;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 6px;
+}
+
+.bell__dismiss:hover {
+  color: var(--danger);
+  background: var(--danger-soft);
+}
+
+.bell__empty {
+  padding: 16px 4px;
+  font-size: 13px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.bell__clear {
+  width: 100%;
+  margin-top: 8px;
+  justify-content: center;
+}
+
+.bell__updated {
+  display: block;
+  margin-top: 8px;
+  font-size: 11px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.alert-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 380px;
+  overflow-y: auto;
+}
+
+.alert-list__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-left-width: 3px;
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+}
+
+.alert-list__item--danger {
+  border-left-color: var(--danger);
+  background: var(--danger-soft);
+}
+
+.alert-list__item--warning {
+  border-left-color: var(--warning);
+  background: var(--warning-soft);
+}
+
+.alert-list__item--info {
+  border-left-color: var(--info);
+  background: var(--info-soft);
+}
+
+.alert-list__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.alert-list__body b {
+  font-size: 13.5px;
+}
+
+.alert-list__body small {
+  color: var(--muted);
+  font-size: 12.5px;
+  line-height: 1.45;
+}
+
+/* ============================================================= badges */
+.feed-dot--danger,
+.feed-dot--removed,
+.feed-dot--overdue {
+  background: var(--danger);
+}
+
+.feed-dot--warning,
+.feed-dot--added,
+.feed-dot--due-soon {
+  background: var(--warning);
+}
+
+.feed-dot--success,
+.feed-dot--done {
+  background: var(--secondary);
+}
+
+.feed-dot--info {
+  background: var(--info);
+}
+
+.toast--info {
+  background: var(--info-soft);
+  color: var(--info);
+}
+
+.toast--info .toast__dot {
+  background: var(--info);
+}
+
+.toast--warning {
+  background: var(--warning-soft);
+  color: var(--warning);
+}
+
+.toast--warning .toast__dot {
+  background: var(--warning);
+}
+
+/* ======================================================= table accents */
+tr.row--overdue td {
+  background: var(--danger-soft);
+}
+
+tr.row--due td {
+  background: var(--warning-soft);
+}
+
+tr.row--low td {
+  background: var(--warning-soft);
+}
+
+/* ============================================================ nav bits */
+a.nav-item {
+  text-decoration: none;
+  color: inherit;
+}
+
+.footer__links a {
+  font-size: 12.5px;
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.footer__links a:hover {
+  color: var(--primary);
+}
+
+.header__date {
+  white-space: nowrap;
+}
+
+/* ====================================================== report / print */
+.report-preview {
+  background: #ffffff;
+  color: #172033;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+}
+
+.report-preview h2 {
+  margin-bottom: 4px;
+}
+
+.report-preview .report-kpis {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.report-kpi {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+}
+
+.report-kpi span {
+  display: block;
+  font-size: 12px;
+  color: #64748b;
+}
+
+.report-kpi b {
+  font-size: 19px;
+}
+
+.activity-table td {
+  vertical-align: top;
+}
+
+.role-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 3px 10px;
+  color: var(--muted);
+}
+
+/* ======================================================== dark overrides */
+:root[data-theme="dark"] {
+  --primary: #22c55e;
+  --primary-hover: #4ade80;
+  --soft-green: #11301f;
+  --bg: #0b1220;
+  --surface: #111a2c;
+  --text: #e6edf7;
+  --muted: #93a2b8;
+  --border: #1f2b42;
+  --danger: #f87171;
+  --danger-soft: #2a1519;
+  --warning: #fbbf24;
+  --warning-soft: #2a200d;
+  --info: #38bdf8;
+  --info-soft: #0b2333;
+  --violet: #a78bfa;
+  --violet-soft: #1d1633;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.45), 0 1px 3px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 8px 24px -12px rgba(0, 0, 0, 0.75);
+}
+
+:root[data-theme="dark"] .header {
+  background: rgba(17, 26, 44, 0.92);
+}
+
+:root[data-theme="dark"] .login-form__demo-chip,
+:root[data-theme="dark"] .alert-list__item,
+:root[data-theme="dark"] .forecast__day,
+:root[data-theme="dark"] .humidity-gauge__inner {
+  background: var(--surface);
+}
+
+:root[data-theme="dark"] .recharts-default-tooltip {
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  color: var(--text) !important;
+}
+
+:root[data-theme="dark"] .report-preview {
+  background: var(--surface);
+  color: var(--text);
+}
+
+:root[data-theme="dark"] .btn {
+  color: var(--text);
+}
+
+/* ======================================================== responsive */
+@media (max-width: 1023px) {
+  .header__date {
+    display: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .humidity-gauge {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .login-card {
+    padding: 24px 20px;
+  }
+}
+
+/* ============================================================= print */
+@media print {
+  .sidebar,
+  .header,
+  .footer,
+  .no-print,
+  .toast {
+    display: none !important;
+  }
+
+  .app__body {
+    margin-left: 0 !important;
+  }
+
+  .content {
+    padding: 0 !important;
+  }
+
+  .report-preview {
+    border: none;
+    padding: 0;
+  }
+
+  body {
+    background: #fff;
+  }
+}

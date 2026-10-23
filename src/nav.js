@@ -1,33 +1,52 @@
 import {
   IconBox,
   IconCart,
+  IconClock,
   IconGrid,
-  IconPlusCircle,
-} from "./icons";
+  IconLayers,
+  IconSprout,
+  IconTrend,
+  IconUsers,
+} from "./common/icons";
 
 export const NAV = [
   {
     group: "Overview",
-    items: [{ id: "dashboard", label: "Dashboard", icon: IconGrid }],
+    items: [{ to: "/dashboard", label: "Dashboard", icon: IconGrid }],
   },
   {
-    group: "Operations",
+    group: "Farm Operations",
     items: [
-      { id: "supplies", label: "Supplies", icon: IconBox },
-      { id: "orders", label: "Orders", icon: IconCart },
+      { to: "/crops", label: "Crops", icon: IconSprout },
+      { to: "/harvest-orders", label: "Harvest and Orders", icon: IconCart },
+      { to: "/buyers", label: "Buyers", icon: IconUsers },
+      { to: "/tasks", label: "Tasks", icon: IconClock },
     ],
   },
   {
-    group: "Actions",
-    items: [{ id: "form", label: "New Order", icon: IconPlusCircle }],
+    group: "Resources",
+    items: [
+      { to: "/expenses", label: "Expenses", icon: IconTrend },
+      { to: "/inventory", label: "Inventory", icon: IconBox },
+      { to: "/reports", label: "Reports", icon: IconLayers },
+    ],
   },
 ];
 
-export const PAGE_META = {
-  dashboard: { title: "Dashboard", crumb: "Overview" },
-  supplies: { title: "Supplies", crumb: "Operations" },
-  orders: { title: "Orders", crumb: "Operations" },
-  form: { title: "New Order", crumb: "Actions" },
+export const PAGE_TITLES = {
+  "/dashboard": "Dashboard",
+  "/crops": "Crops",
+  "/harvest-orders": "Harvest and Orders",
+  "/buyers": "Buyers",
+  "/tasks": "Tasks",
+  "/expenses": "Expenses",
+  "/inventory": "Inventory",
+  "/reports": "Reports",
+  "/login": "Login",
 };
 
-export const PAGE_IDS = Object.keys(PAGE_META);
+export function pageTitleFor(pathname) {
+  if (PAGE_TITLES[pathname]) return PAGE_TITLES[pathname];
+  const match = Object.keys(PAGE_TITLES).find((path) => pathname.startsWith(`${path}/`));
+  return match ? PAGE_TITLES[match] : "Page not found";
+}
