@@ -7,8 +7,8 @@ import SearchBar from "../common/SearchBar.js";
 import ConfirmModal from "../common/ConfirmModal.js";
 import { selectVisibleCrops } from "../../redux/selectors/cropSelectors.js";
 import { selectCanModify } from "../../redux/selectors/entitySelectors.js";
-import { removeCrop } from "../../redux/actions/cropActions.js";
-import { showToast } from "../../redux/actions/uiActions.js";
+import { REMOVECROP } from "../../redux/actions/crops/index.js";
+import { showToast } from "../../redux/actions/ui/index.js";
 import { formatDate, formatNumber } from "../../utils/formatters.js";
 import { IconEdit, IconTrash } from "../common/icons.js";
 
@@ -33,8 +33,14 @@ export default function CropTable({ onEdit }) {
   }
 
   function confirmDelete() {
-    dispatch(removeCrop(target.id));
-    dispatch(showToast({ tone: "success", message: `${target.name} removed.` }));
+    const name = target.name;
+    dispatch(
+      REMOVECROP(
+        target.id,
+        () => dispatch(showToast({ tone: "success", message: `${name} removed.` })),
+        (message) => dispatch(showToast({ tone: "error", message }))
+      )
+    );
     setTarget(null);
   }
 

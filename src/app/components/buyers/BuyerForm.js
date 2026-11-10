@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import Card from "../common/Card.js";
 import CnicInput from "./CnicInput.js";
 import ImageUpload from "./ImageUpload.js";
-import { saveBuyer } from "../../redux/thunks/saveBuyer.js";
-import { showToast } from "../../redux/actions/uiActions.js";
+import { SAVEBUYER } from "../../redux/actions/buyers/index.js";
+import { showToast } from "../../redux/actions/ui/index.js";
 import { selectCropOptions } from "../../redux/selectors/cropSelectors.js";
 import {
   validateName,
@@ -78,7 +78,7 @@ export default function BuyerForm({ buyer, onDone }) {
     return found;
   }
 
-  async function handleSubmit(event) {
+  function handleSubmit(event) {
     event.preventDefault();
     const found = validate();
     setErrors(found);
@@ -88,9 +88,9 @@ export default function BuyerForm({ buyer, onDone }) {
     }
 
     setSaving(true);
-    try {
-      await dispatch(
-        saveBuyer({
+    dispatch(
+      SAVEBUYER(
+        {
           id: buyer ? buyer.id : undefined,
           name: form.name,
           cnic: form.cnic,
@@ -98,29 +98,31 @@ export default function BuyerForm({ buyer, onDone }) {
           cropId: form.cropId,
           quantity: Number(form.quantity),
           date: form.date,
-        })
-      ).unwrap();
-
-      dispatch(
-        showToast({
-          tone: "success",
-          message: buyer
-            ? `${form.name.trim()} updated.`
-            : `${form.name.trim()} registered — stock updated.`,
-        })
-      );
-      if (!buyer) setForm({ ...emptyForm, date: todayIso() });
-      if (onDone) onDone();
-    } catch (message) {
-      const cnicIssue = String(message).toLowerCase().includes("cnic");
-      setErrors({
-        ...(cnicIssue ? { cnic: message } : {}),
-        _form: message,
-      });
-      dispatch(showToast({ tone: "error", message }));
-    } finally {
-      setSaving(false);
-    }
+        },
+        () => {
+          dispatch(
+            showToast({
+              tone: "success",
+              message: buyer
+                ? `${form.name.trim()} updated.`
+                : `${form.name.trim()} registered — stock updated.`,
+            })
+          );
+          if (!buyer) setForm({ ...emptyForm, date: todayIso() });
+          if (onDone) onDone();
+          setSaving(false);
+        },
+        (message) => {
+          const cnicIssue = String(message).toLowerCase().includes("cnic");
+          setErrors({
+            ...(cnicIssue ? { cnic: message } : {}),
+            _form: message,
+          });
+          dispatch(showToast({ tone: "error", message }));
+          setSaving(false);
+        }
+      )
+    );
   }
 
   return (

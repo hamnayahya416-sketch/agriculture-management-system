@@ -10,8 +10,8 @@ import {
   selectAllBuyers,
 } from "../../redux/selectors/buyerSelectors.js";
 import { selectCanModify } from "../../redux/selectors/entitySelectors.js";
-import { removeBuyer } from "../../redux/actions/buyerActions.js";
-import { showToast } from "../../redux/actions/uiActions.js";
+import { REMOVEBUYER } from "../../redux/actions/buyers/index.js";
+import { showToast } from "../../redux/actions/ui/index.js";
 import { formatDate, formatNumber } from "../../utils/formatters.js";
 import { formatCnic } from "../../utils/validators.js";
 import useDebounce from "../../hooks/useDebounce.js";
@@ -30,14 +30,21 @@ export default function BuyerTable({ onEdit }) {
   );
 
   function handleDelete() {
-    dispatch(removeBuyer(deleting.id));
     dispatch(
-      showToast({
-        tone: "success",
-        message: `${deleting.name} removed from buyers.`,
-      })
+      REMOVEBUYER(
+        deleting.id,
+        () => {
+          dispatch(
+            showToast({
+              tone: "success",
+              message: `${deleting.name} removed from buyers.`,
+            })
+          );
+          setDeleting(null);
+        },
+        (message) => dispatch(showToast({ tone: "error", message }))
+      )
     );
-    setDeleting(null);
   }
 
   return (

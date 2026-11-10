@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { IconShield, IconUser } from "../components/common/icons.js";
-import { authenticate, login } from "../redux/actions/authActions.js";
-import { showToast } from "../redux/actions/uiActions.js";
+import { LOGIN } from "../redux/actions/user/index.js";
+import { showToast } from "../redux/actions/ui/index.js";
 import { validateLogin, hasErrors } from "../utils/validators.js";
 
 const DEMO_ACCOUNTS = [
@@ -29,19 +29,15 @@ export default function LoginForm() {
       return;
     }
 
-    const account = authenticate(form.username, form.password);
-    if (!account) {
-      setErrors({ password: "Invalid username or password." });
-      dispatch(showToast({ message: "Invalid username or password.", tone: "error" }));
-      return;
-    }
-
-    dispatch(login({ user: account.username, role: account.role }));
     dispatch(
-      showToast({
-        message: `Welcome back, ${account.displayName}!`,
-        tone: "success",
-      })
+      LOGIN(
+        { username: form.username, password: form.password },
+        (user) => dispatch(showToast({ message: `Welcome back, ${user.displayName}!`, tone: "success" })),
+        (message) => {
+          setErrors({ password: message });
+          dispatch(showToast({ message, tone: "error" }));
+        }
+      )
     );
   }
 

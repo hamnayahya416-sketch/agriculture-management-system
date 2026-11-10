@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Card from "../common/Card.js";
-import { logInventoryUsage } from "../../redux/actions/inventoryActions.js";
-import { showToast } from "../../redux/actions/uiActions.js";
+import { ADDUSAGE } from "../../redux/actions/inventory/index.js";
+import { showToast } from "../../redux/actions/ui/index.js";
 import { selectInventoryItems, selectCanModify } from "../../redux/selectors/entitySelectors.js";
 import { validateQuantity, validateDate } from "../../utils/validators.js";
 import { formatNumber, todayIso } from "../../utils/formatters.js";
@@ -49,22 +49,27 @@ export default function UsageForm({ onDone }) {
     }
 
     dispatch(
-      logInventoryUsage({
-        itemId: selected.id,
-        qty: Number(form.qty),
-        unit: selected.unit,
-        date: form.date,
-        note: form.note.trim(),
-      })
+      ADDUSAGE(
+        {
+          itemId: selected.id,
+          qty: Number(form.qty),
+          unit: selected.unit,
+          date: form.date,
+          note: form.note.trim(),
+        },
+        () => {
+          dispatch(
+            showToast({
+              tone: "success",
+              message: `${formatNumber(form.qty)} ${selected.unit} of ${selected.item} used.`,
+            })
+          );
+          setForm({ ...emptyForm, date: todayIso() });
+          if (onDone) onDone();
+        },
+        (message) => dispatch(showToast({ tone: "error", message }))
+      )
     );
-    dispatch(
-      showToast({
-        tone: "success",
-        message: `${formatNumber(form.qty)} ${selected.unit} of ${selected.item} used.`,
-      })
-    );
-    setForm({ ...emptyForm, date: todayIso() });
-    if (onDone) onDone();
   }
 
   return (

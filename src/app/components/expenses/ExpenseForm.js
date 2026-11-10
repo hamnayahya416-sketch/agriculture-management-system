@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Card from "../common/Card.js";
-import { addExpense, updateExpense } from "../../redux/actions/expenseActions.js";
-import { showToast } from "../../redux/actions/uiActions.js";
+import { ADDEXPENSE, UPDATEEXPENSE } from "../../redux/actions/expenses/index.js";
+import { showToast } from "../../redux/actions/ui/index.js";
 import { selectCropOptions } from "../../redux/selectors/cropSelectors.js";
 import { validateRequired, validateAmount, validateDate } from "../../utils/validators.js";
 import { todayIso } from "../../utils/formatters.js";
@@ -73,18 +73,32 @@ export default function ExpenseForm({ expense, onDone }) {
     };
 
     if (expense) {
-      dispatch(updateExpense({ ...payload, id: expense.id }));
-      dispatch(showToast({ tone: "success", message: `${form.category} expense updated.` }));
-      if (onDone) onDone();
-    } else {
-      dispatch(addExpense(payload));
       dispatch(
-        showToast({
-          tone: "success",
-          message: `${form.category} expense of $${Number(form.amount).toLocaleString()} recorded.`,
-        })
+        UPDATEEXPENSE(
+          { id: expense.id, ...payload },
+          () => {
+            dispatch(showToast({ tone: "success", message: `${form.category} expense updated.` }));
+            if (onDone) onDone();
+          },
+          (message) => dispatch(showToast({ tone: "error", message }))
+        )
       );
-      setForm({ ...emptyForm, date: todayIso() });
+    } else {
+      dispatch(
+        ADDEXPENSE(
+          payload,
+          () => {
+            dispatch(
+              showToast({
+                tone: "success",
+                message: `${form.category} expense of $${Number(form.amount).toLocaleString()} recorded.`,
+              })
+            );
+            setForm({ ...emptyForm, date: todayIso() });
+          },
+          (message) => dispatch(showToast({ tone: "error", message }))
+        )
+      );
     }
   }
 

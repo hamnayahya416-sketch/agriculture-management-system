@@ -3,7 +3,7 @@ import Card from "../common/Card.js";
 import StatusBadge from "../common/StatusBadge.js";
 import EmptyState from "../common/EmptyState.js";
 import { selectMonthlyReport } from "../../redux/selectors/reportSelectors.js";
-import { showToast } from "../../redux/actions/uiActions.js";
+import { showToast } from "../../redux/actions/ui/index.js";
 import { formatDate, formatMoney, formatNumber } from "../../utils/formatters.js";
 import { exportCsv } from "../../utils/exportCsv.js";
 import { IconDownload, IconFileText, IconPrint } from "../common/icons.js";

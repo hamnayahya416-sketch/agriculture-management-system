@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import Card from "../common/Card.js";
-import { addCrop, updateCrop } from "../../redux/actions/cropActions.js";
-import { showToast } from "../../redux/actions/uiActions.js";
+import { ADDCROP, UPDATECROP } from "../../redux/actions/crops/index.js";
+import { showToast } from "../../redux/actions/ui/index.js";
 import {
   validateName,
   validateRequired,
@@ -100,15 +100,22 @@ export default function CropForm({ crop, onDone }) {
       price: form.price === "" ? 0 : Number(form.price),
     };
 
-    if (crop) {
-      dispatch(updateCrop({ id: crop.id, ...payload }));
-      dispatch(showToast({ tone: "success", message: `${payload.name} updated.` }));
-    } else {
-      dispatch(addCrop(payload));
-      dispatch(showToast({ tone: "success", message: `${payload.name} added to the farm.` }));
-    }
+    const onSuccess = () => {
+      dispatch(
+        showToast({
+          tone: "success",
+          message: crop ? `${payload.name} updated.` : `${payload.name} added to the farm.`,
+        })
+      );
+      if (onDone) onDone();
+    };
+    const onFailure = (message) => dispatch(showToast({ tone: "error", message }));
 
-    if (onDone) onDone();
+    if (crop) {
+      dispatch(UPDATECROP({ id: crop.id, ...payload }, onSuccess, onFailure));
+    } else {
+      dispatch(ADDCROP(payload, onSuccess, onFailure));
+    }
   }
 
   return (

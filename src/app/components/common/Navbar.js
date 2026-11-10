@@ -12,9 +12,9 @@ import {
 } from "./icons.js";
 import { pageTitleFor } from "../../navigations.js";
 import { formatTodayLong, formatTimestamp } from "../../utils/formatters.js";
-import { logout } from "../../redux/actions/authActions.js";
-import { dismissAlert, dismissAllAlerts } from "../../redux/actions/alertActions.js";
-import { toggleTheme, showToast } from "../../redux/actions/uiActions.js";
+import { LOGOUT } from "../../redux/actions/user/index.js";
+import { dismissAlert, dismissAllAlerts } from "../../redux/actions/ui/index.js";
+import { toggleTheme, showToast } from "../../redux/actions/ui/index.js";
 import {
   selectCurrentRole,
   selectCurrentUser,
@@ -34,7 +34,7 @@ export default function Navbar({ onToggle }) {
 
   function handleLogout() {
     setPanelOpen(false);
-    dispatch(logout());
+    dispatch(LOGOUT());
     dispatch(showToast({ message: "You have been logged out.", tone: "info" }));
   }
 

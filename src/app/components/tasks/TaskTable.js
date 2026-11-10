@@ -7,8 +7,8 @@ import SearchBar from "../common/SearchBar.js";
 import ConfirmModal from "../common/ConfirmModal.js";
 import { selectTaskRows } from "../../redux/selectors/taskSelectors.js";
 import { selectCanModify } from "../../redux/selectors/entitySelectors.js";
-import { removeTask, setTaskStatus } from "../../redux/actions/taskActions.js";
-import { showToast } from "../../redux/actions/uiActions.js";
+import { REMOVETASK, UPDATETASK } from "../../redux/actions/tasks/index.js";
+import { showToast } from "../../redux/actions/ui/index.js";
 import { formatDayMonth } from "../../utils/formatters.js";
 import { IconEdit, IconTrash, IconCheckCircle, IconClock } from "../common/icons.js";
 
@@ -46,19 +46,32 @@ export default function TaskTable({ onEdit }) {
 
   function toggleDone(row) {
     const next = row.status === "Done" ? "Pending" : "Done";
-    dispatch(setTaskStatus({ id: row.id, status: next }));
     dispatch(
-      showToast({
-        tone: "success",
-        message: next === "Done" ? `“${row.title}” marked done.` : `“${row.title}” reopened.`,
-      })
+      UPDATETASK(
+        { id: row.id, status: next },
+        () =>
+          dispatch(
+            showToast({
+              tone: "success",
+              message: next === "Done" ? `“${row.title}” marked done.` : `“${row.title}” reopened.`,
+            })
+          ),
+        (message) => dispatch(showToast({ tone: "error", message }))
+      )
     );
   }
 
   function confirmDelete() {
-    dispatch(removeTask(target.id));
-    dispatch(showToast({ tone: "success", message: `Task “${target.title}” removed.` }));
-    setTarget(null);
+    dispatch(
+      REMOVETASK(
+        target.id,
+        () => {
+          dispatch(showToast({ tone: "success", message: `Task “${target.title}” removed.` }));
+          setTarget(null);
+        },
+        (message) => dispatch(showToast({ tone: "error", message }))
+      )
+    );
   }
 
   return (

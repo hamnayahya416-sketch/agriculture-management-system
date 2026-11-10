@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { hideToast } from "../../redux/actions/uiActions.js";
+import { hideToast } from "../../redux/actions/ui/index.js";
 import { selectToast } from "../../redux/selectors/entitySelectors.js";
 
 export default function Toast() {

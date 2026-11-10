@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { IconClose, IconLeaf } from "./icons.js";
 import { NAV } from "../../navigations.js";
-import { closeSidebar } from "../../redux/actions/uiActions.js";
+import { closeSidebar } from "../../redux/actions/ui/index.js";
 import { selectSidebarCollapsed, selectSidebarOpen } from "../../redux/selectors/entitySelectors.js";
 
 export default function Sidebar() {

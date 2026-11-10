@@ -5,8 +5,8 @@ import EmptyState from "../common/EmptyState.js";
 import SearchBar from "../common/SearchBar.js";
 import ConfirmModal from "../common/ConfirmModal.js";
 import { selectExpenseItems, selectCropItems, selectCanModify } from "../../redux/selectors/entitySelectors.js";
-import { removeExpense } from "../../redux/actions/expenseActions.js";
-import { showToast } from "../../redux/actions/uiActions.js";
+import { REMOVEEXPENSE } from "../../redux/actions/expenses/index.js";
+import { showToast } from "../../redux/actions/ui/index.js";
 import { formatDate, formatMoney } from "../../utils/formatters.js";
 import { exportCsv } from "../../utils/exportCsv.js";
 import useDebounce from "../../hooks/useDebounce.js";
@@ -40,9 +40,16 @@ export default function ExpenseTable({ onEdit }) {
   });
 
   function confirmDelete() {
-    dispatch(removeExpense(target.id));
-    dispatch(showToast({ tone: "success", message: "Expense removed." }));
-    setTarget(null);
+    dispatch(
+      REMOVEEXPENSE(
+        target.id,
+        () => {
+          dispatch(showToast({ tone: "success", message: "Expense removed." }));
+          setTarget(null);
+        },
+        (message) => dispatch(showToast({ tone: "error", message }))
+      )
+    );
   }
 
   function handleExport() {

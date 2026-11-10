@@ -9,7 +9,7 @@ import {
   closeSidebar,
   toggleSidebar,
   toggleSidebarCollapsed,
-} from "../../redux/actions/uiActions.js";
+} from "../../redux/actions/ui/index.js";
 import { selectTheme } from "../../redux/selectors/entitySelectors.js";
 
 export default function AppShell() {

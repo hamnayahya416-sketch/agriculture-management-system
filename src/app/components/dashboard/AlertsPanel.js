@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { selectAlerts } from "../../redux/selectors/selectAlerts.js";
-import { dismissAlert } from "../../redux/actions/alertActions.js";
+import { dismissAlert } from "../../redux/actions/ui/index.js";
 import Card from "../common/Card.js";
 import EmptyState from "../common/EmptyState.js";
 import StatusBadge from "../common/StatusBadge.js";

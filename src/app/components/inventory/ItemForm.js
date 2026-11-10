@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import Card from "../common/Card.js";
-import { addInventoryItem, updateInventoryItem } from "../../redux/actions/inventoryActions.js";
-import { showToast } from "../../redux/actions/uiActions.js";
+import { ADDITEM, UPDATEITEM } from "../../redux/actions/inventory/index.js";
+import { showToast } from "../../redux/actions/ui/index.js";
 import { validateRequired, validateQuantity, validateAmount } from "../../utils/validators.js";
 
 export const INVENTORY_TYPES = ["Fertilizer", "Seed", "Pesticide", "Herbicide", "Fuel", "Other"];
@@ -70,13 +70,27 @@ export default function ItemForm({ item, onDone }) {
     };
 
     if (item) {
-      dispatch(updateInventoryItem({ ...payload, id: item.id }));
-      dispatch(showToast({ tone: "success", message: `${payload.item} updated.` }));
-      if (onDone) onDone();
+      dispatch(
+        UPDATEITEM(
+          { id: item.id, ...payload },
+          () => {
+            dispatch(showToast({ tone: "success", message: `${payload.item} updated.` }));
+            if (onDone) onDone();
+          },
+          (message) => dispatch(showToast({ tone: "error", message }))
+        )
+      );
     } else {
-      dispatch(addInventoryItem(payload));
-      dispatch(showToast({ tone: "success", message: `${payload.item} added to inventory.` }));
-      setForm(emptyForm);
+      dispatch(
+        ADDITEM(
+          payload,
+          () => {
+            dispatch(showToast({ tone: "success", message: `${payload.item} added to inventory.` }));
+            setForm(emptyForm);
+          },
+          (message) => dispatch(showToast({ tone: "error", message }))
+        )
+      );
     }
   }
 

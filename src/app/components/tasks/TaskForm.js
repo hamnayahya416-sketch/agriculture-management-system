@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Card from "../common/Card.js";
-import { addTask, updateTask } from "../../redux/actions/taskActions.js";
-import { showToast } from "../../redux/actions/uiActions.js";
+import { ADDTASK, UPDATETASK } from "../../redux/actions/tasks/index.js";
+import { showToast } from "../../redux/actions/ui/index.js";
 import { selectCropOptions } from "../../redux/selectors/cropSelectors.js";
 import { validateRequired, validateDate } from "../../utils/validators.js";
 import { todayIso } from "../../utils/formatters.js";
@@ -68,13 +68,27 @@ export default function TaskForm({ task, onDone }) {
     };
 
     if (task) {
-      dispatch(updateTask({ ...payload, id: task.id }));
-      dispatch(showToast({ tone: "success", message: `Task “${payload.title}” updated.` }));
-      if (onDone) onDone();
+      dispatch(
+        UPDATETASK(
+          { id: task.id, ...payload },
+          () => {
+            dispatch(showToast({ tone: "success", message: `Task “${payload.title}” updated.` }));
+            if (onDone) onDone();
+          },
+          (message) => dispatch(showToast({ tone: "error", message }))
+        )
+      );
     } else {
-      dispatch(addTask(payload));
-      dispatch(showToast({ tone: "success", message: `Task “${payload.title}” scheduled.` }));
-      setForm({ ...emptyForm, dueDate: todayIso() });
+      dispatch(
+        ADDTASK(
+          payload,
+          () => {
+            dispatch(showToast({ tone: "success", message: `Task “${payload.title}” scheduled.` }));
+            setForm({ ...emptyForm, dueDate: todayIso() });
+          },
+          (message) => dispatch(showToast({ tone: "error", message }))
+        )
+      );
     }
   }
 

@@ -5,6 +5,7 @@
   "homepage": "https://hamnayahya416-sketch.github.io/agriculture-management-system",
   "dependencies": {
     "@reduxjs/toolkit": "^2.13.0",
+    "axios": "^1.21.1",
     "bootstrap": "^5.3.8",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",

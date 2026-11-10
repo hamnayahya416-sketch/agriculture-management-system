@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Card from "../common/Card.js";
 import StatusBadge from "../common/StatusBadge.js";
-import { addOrder } from "../../redux/actions/orderActions.js";
-import { showToast } from "../../redux/actions/uiActions.js";
+import { ADDORDER } from "../../redux/actions/orders/index.js";
+import { showToast } from "../../redux/actions/ui/index.js";
 import { selectCropOptions } from "../../redux/selectors/cropSelectors.js";
 import { validateQuantity, validateRequired } from "../../utils/validators.js";
 import { formatNumber, todayIso } from "../../utils/formatters.js";
@@ -78,33 +78,39 @@ export default function OrderForm({ onShowOrders }) {
 
     const crop = selectedCrop;
     dispatch(
-      addOrder({
-        cropId: crop.id,
-        customer: form.customer.trim(),
-        email: form.email.trim(),
-        phone: form.phone.trim() || "—",
-        quantity: Number(form.quantity),
-        price: crop.price,
-        unit: crop.unit,
-        orderDate: todayIso(),
-        delivery: form.delivery || "To be confirmed",
-        address: form.address.trim(),
-        notes: form.notes.trim(),
-        status: "Pending",
-        image: image ? image.url : null,
-      })
+      ADDORDER(
+        {
+          cropId: crop.id,
+          customer: form.customer.trim(),
+          email: form.email.trim(),
+          phone: form.phone.trim() || "—",
+          quantity: Number(form.quantity),
+          price: crop.price,
+          unit: crop.unit,
+          orderDate: todayIso(),
+          delivery: form.delivery || "To be confirmed",
+          address: form.address.trim(),
+          notes: form.notes.trim(),
+          status: "Pending",
+          image: image ? image.url : null,
+        },
+        () => {
+          dispatch(
+            showToast({
+              tone: "success",
+              message: `Order saved for ${form.customer.trim()} — stock updated.`,
+            })
+          );
+          setSuccess(
+            `${form.quantity} ${crop.unit} of ${crop.name} for ${form.customer.trim()}`
+          );
+          setForm(emptyForm);
+          setImage(null);
+          setErrors({});
+        },
+        (message) => dispatch(showToast({ tone: "error", message }))
+      )
     );
-
-    dispatch(
-      showToast({
-        tone: "success",
-        message: `Order saved for ${form.customer.trim()} — stock updated.`,
-      })
-    );
-    setSuccess(`${form.quantity} ${crop.unit} of ${crop.name} for ${form.customer.trim()}`);
-    setForm(emptyForm);
-    setImage(null);
-    setErrors({});
   }
 
   if (success) {

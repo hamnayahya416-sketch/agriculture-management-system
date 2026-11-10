@@ -1,28 +1,36 @@
 import { combineReducers } from "@reduxjs/toolkit";
-import cropsReducer from "./cropsReducer.js";
-import ordersReducer from "./ordersReducer.js";
-import buyersReducer from "./buyersReducer.js";
-import weatherReducer from "./weatherReducer.js";
-import tasksReducer from "./tasksReducer.js";
-import expensesReducer from "./expensesReducer.js";
-import inventoryReducer from "./inventoryReducer.js";
-import authReducer from "./authReducer.js";
-import alertsReducer from "./alertsReducer.js";
-import activityReducer from "./activityReducer.js";
-import uiReducer from "./uiReducer.js";
+import crops from "./crops/index.js";
+import orders from "./orders/index.js";
+import buyers from "./buyers/index.js";
+import tasks from "./tasks/index.js";
+import expenses from "./expenses/index.js";
+import inventory from "./inventory/index.js";
+import workers from "./workers/index.js";
+import attendance from "./attendance/index.js";
+import equipment from "./equipment/index.js";
+import maintenance from "./maintenance/index.js";
+import user from "./user/index.js";
+import weather from "./weather/index.js";
+import activity from "./activity/index.js";
+import alerts from "./alerts/index.js";
+import ui from "./ui/index.js";
 
 const rootReducer = combineReducers({
-  crops: cropsReducer,
-  orders: ordersReducer,
-  buyers: buyersReducer,
-  weather: weatherReducer,
-  tasks: tasksReducer,
-  expenses: expensesReducer,
-  inventory: inventoryReducer,
-  auth: authReducer,
-  alerts: alertsReducer,
-  activity: activityReducer,
-  ui: uiReducer,
+  crops,
+  orders,
+  buyers,
+  tasks,
+  expenses,
+  inventory,
+  workers,
+  attendance,
+  equipment,
+  maintenance,
+  user,
+  weather,
+  activity,
+  alerts,
+  ui,
 });
 
 export default rootReducer;

@@ -10,8 +10,8 @@ import {
   selectCanModify,
 } from "../../redux/selectors/entitySelectors.js";
 import { selectStockStatus } from "../../redux/selectors/selectLowStock.js";
-import { removeInventoryItem } from "../../redux/actions/inventoryActions.js";
-import { showToast } from "../../redux/actions/uiActions.js";
+import { REMOVEITEM } from "../../redux/actions/inventory/index.js";
+import { showToast } from "../../redux/actions/ui/index.js";
 import { formatNumber } from "../../utils/formatters.js";
 import useDebounce from "../../hooks/useDebounce.js";
 import { IconEdit, IconTrash } from "../common/icons.js";
@@ -32,9 +32,16 @@ export default function InventoryTable({ onEdit }) {
   );
 
   function confirmDelete() {
-    dispatch(removeInventoryItem(target.id));
-    dispatch(showToast({ tone: "success", message: `${target.item} removed from inventory.` }));
-    setTarget(null);
+    dispatch(
+      REMOVEITEM(
+        target.id,
+        () => {
+          dispatch(showToast({ tone: "success", message: `${target.item} removed from inventory.` }));
+          setTarget(null);
+        },
+        (message) => dispatch(showToast({ tone: "error", message }))
+      )
+    );
   }
 
   return (

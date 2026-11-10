@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchWeather } from "../redux/thunks/fetchWeather.js";
+import { FETCHWEATHER } from "../redux/actions/weather/index.js";
 import { selectWeatherState } from "../redux/selectors/entitySelectors.js";
 
 export const WEATHER_REFRESH_MS = 10 * 60 * 1000; // fixed auto-refresh interval: 10 minutes
@@ -10,7 +10,7 @@ export default function useWeather(refreshMs = WEATHER_REFRESH_MS) {
   const dispatch = useDispatch();
   const weather = useSelector(selectWeatherState);
 
-  const refresh = useCallback(() => dispatch(fetchWeather()), [dispatch]);
+  const refresh = useCallback(() => dispatch(FETCHWEATHER()), [dispatch]);
 
   useEffect(() => {
     let interval = null;
