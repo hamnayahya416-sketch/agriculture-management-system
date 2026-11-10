@@ -12,7 +12,7 @@ import { selectExpenseItems } from "../store/selectors/entitySelectors";
 import Card from "../common/Card";
 import { formatMoney } from "../utils/formatters";
 
-const COLORS = ["#166534", "#0EA5E9", "#F59E0B", "#7C3AED", "#DC2626", "#059669", "#64748B", "#DB2777"];
+const COLORS = ["#00AB41", "#006B2A", "#F59E0B", "#7C3AED", "#DC2626", "#0F766E", "#64748B", "#DB2777"];
 
 export const selectExpenseByCategory = createSelector([selectExpenseItems], (expenses) => {
   const totals = {};

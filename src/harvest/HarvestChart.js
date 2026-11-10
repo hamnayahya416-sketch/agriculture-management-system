@@ -28,14 +28,14 @@ export default function HarvestChart() {
             <Bar
               dataKey="harvest"
               name="Harvested (kg)"
-              fill="#166534"
+              fill="#00AB41"
               radius={[6, 6, 0, 0]}
               isAnimationActive={false}
             />
             <Bar
               dataKey="sales"
               name="Sold (kg)"
-              fill="#0EA5E9"
+              fill="#006B2A"
               radius={[6, 6, 0, 0]}
               isAnimationActive={false}
             />

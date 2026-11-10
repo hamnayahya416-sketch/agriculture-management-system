@@ -12,9 +12,9 @@ import Card from "../common/Card";
 import EmptyState from "../common/EmptyState";
 
 const COLORS = {
-  Healthy: "#22C55E",
-  "Needs Attention": "#F59E0B",
-  Critical: "#DC2626",
+  Healthy: "222C55E",
+  "Needs Attention": "2F59E0B",
+  Critical: "2DC2626",
 };
 
 export default function CropHealthChart() {
@@ -39,7 +39,7 @@ export default function CropHealthChart() {
                 isAnimationActive={false}
               >
                 {data.map((entry) => (
-                  <Cell key={entry.name} fill={COLORS[entry.name] || "#64748B"} />
+                  <Cell key={entry.name} fill={COLORS[entry.name] || "264748B"} />
                 ))}
               </Pie>
               <Tooltip />

@@ -31,7 +31,7 @@ export default function ProfitLossChart() {
             <Bar
               dataKey="revenue"
               name="Revenue ($)"
-              fill="#166534"
+              fill="#00AB41"
               radius={[6, 6, 0, 0]}
               isAnimationActive={false}
             />
@@ -45,7 +45,7 @@ export default function ProfitLossChart() {
             <Line
               dataKey="profit"
               name="Profit ($)"
-              stroke="#0EA5E9"
+              stroke="#006B2A"
               strokeWidth={2.5}
               dot={{ r: 3 }}
               isAnimationActive={false}

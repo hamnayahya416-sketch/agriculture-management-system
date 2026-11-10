@@ -12,9 +12,9 @@ import Card from "../common/Card";
 
 const COLORS = {
   Pending: "#F59E0B",
-  Processing: "#0EA5E9",
+  Processing: "#0F766E",
   Packed: "#7C3AED",
-  Delivered: "#166534",
+  Delivered: "#008631",
   Cancelled: "#DC2626",
 };
 

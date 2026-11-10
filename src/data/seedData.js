@@ -38,8 +38,8 @@ export const SEED_ORDERS = [
 ];
 
 export const SEED_BUYERS = [
-  { id: "BYR-101", name: "Ayesha Khan", cnic: "3520244719832", imageBase64: avatarUrl("AK", "#166534"), cropId: 1, quantity: 500, date: monthOffsetIso(0, 12) },
-  { id: "BYR-102", name: "Bilal Ahmed", cnic: "4210198765435", imageBase64: avatarUrl("BA", "#0284c7"), cropId: 3, quantity: 300, date: monthOffsetIso(0, 15) },
+  { id: "BYR-101", name: "Ayesha Khan", cnic: "3520244719832", imageBase64: avatarUrl("AK", "#00AB41"), cropId: 1, quantity: 500, date: monthOffsetIso(0, 12) },
+  { id: "BYR-102", name: "Bilal Ahmed", cnic: "4210198765435", imageBase64: avatarUrl("BA", "#008631"), cropId: 3, quantity: 300, date: monthOffsetIso(0, 15) },
   { id: "BYR-103", name: "Sana Iqbal", cnic: "6110155667789", imageBase64: avatarUrl("SI", "#7c3aed"), cropId: 6, quantity: 450, date: dayOffsetIso(-3) },
 ];
 

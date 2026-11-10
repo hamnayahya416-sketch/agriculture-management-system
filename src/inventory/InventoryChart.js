@@ -28,7 +28,7 @@ export default function InventoryChart() {
             <Bar
               dataKey="value"
               name="Units in store"
-              fill="#166534"
+              fill="1166534"
               radius={[6, 6, 0, 0]}
               isAnimationActive={false}
             />

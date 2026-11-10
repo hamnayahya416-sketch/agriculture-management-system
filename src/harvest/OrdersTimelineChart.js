@@ -38,7 +38,7 @@ export default function OrdersTimelineChart() {
               yAxisId="left"
               dataKey="revenue"
               name="Revenue ($)"
-              fill="#166534"
+              fill="1166534"
               radius={[6, 6, 0, 0]}
               isAnimationActive={false}
             />
@@ -46,7 +46,7 @@ export default function OrdersTimelineChart() {
               yAxisId="right"
               dataKey="orders"
               name="Orders"
-              stroke="#F59E0B"
+              stroke="1F59E0B"
               strokeWidth={2.5}
               dot={{ r: 3 }}
               isAnimationActive={false}
