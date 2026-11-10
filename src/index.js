@@ -4,10 +4,10 @@ import { Provider } from "react-redux";
 import { HashRouter } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap-grid.min.css";
 import "./index.css";
-import "./styles/custom.css";
-import store from "./store";
-import { loadFromStorage } from "./store/thunks/loadFromStorage";
-import App from "./App";
+import "./app/assets/styles/custom.css";
+import store from "./app/redux/store/index.js";
+import { loadFromStorage } from "./app/redux/thunks/loadFromStorage.js";
+import App from "./app/App.jsx";
 
 store.dispatch(loadFromStorage());
 

@@ -1,8 +1,8 @@
 import { renderToString } from "react-dom/server";
 import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
-import store from "./store";
-import App from "./App";
+import store from "./app/redux/store/index.js";
+import App from "./app/App.jsx";
 
 function renderAt(path) {
   return renderToString(
