@@ -3,6 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "homepage": "https://hamnayahya416-sketch.github.io/agriculture-management-system",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hamnayahya416-sketch/agriculture-management-system.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hamnayahya416-sketch/agriculture-management-system/issues"
+  },
   "dependencies": {
     "@reduxjs/toolkit": "^2.13.0",
     "axios": "^1.21.1",

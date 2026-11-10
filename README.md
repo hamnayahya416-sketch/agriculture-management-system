@@ -8,6 +8,13 @@ and **role-based authentication**.
 
 ---
 
+## Links
+
+- **Live website:** https://hamnayahya416-sketch.github.io/agriculture-management-system/
+- **GitHub repository:** https://github.com/hamnayahya416-sketch/agriculture-management-system
+
+---
+
 ## Quick start
 
 ```bash
@@ -25,12 +32,51 @@ npm run deploy     # build + publish to GitHub Pages
 | Admin   | `admin`   | `admin123`  | View, add, edit, delete everything   |
 | Manager | `manager` | `manager123`| View + add only (no edit/delete)     |
 
+Role gating: `useRole()` hook + `selectCanModify` selector (Admin can edit/delete, Manager can view/add).
+
 ---
 
 ## Tech stack
 
 React 19 · Redux Toolkit 2 · React Router 7 (HashRouter) · Recharts 3 · Create React App 5 ·
-Open-Meteo (weather) · localStorage persistence · Jest tests
+axios (Open-Meteo weather) · localStorage persistence · Jest tests
+
+---
+
+## Design theme
+
+Green palette driven by `--agri-*` tokens in `src/index.css`:
+
+| Token | Value | Used for |
+| ----- | ----- | -------- |
+| `--agri-bg` | `#008631` | page background |
+| `--agri-accent` | `#00ab41` | buttons, sidebar/navbar, active states |
+| `--agri-accent-dark` | `#008f37` | hover / borders |
+| `--agri-accent-light` | `#d9f6e6` | cards, tables, forms |
+| `--agri-tint` | `#b9ecd0` | insets, table headers, hover rows |
+
+Text colors stay black/dark (`--primary-text`), status colors (red/amber/violet) remain distinguishable.
+Dark mode overrides live in `src/app/assets/styles/custom.css`.
+
+---
+
+## Project structure
+
+```
+src/
+├── index.js                 Provider + HashRouter bootstrap, dispatches GET* rehydration
+├── index.css                green --agri-* token palette
+├── App.jsx                  routes
+├── fake-db/seedData.js      demo seeds (crops, orders, buyers, tasks, expenses, inventory, activity)
+└── app/
+    ├── components/          crops · harvest · buyers · tasks · expenses · inventory · dashboard · reports · common
+    ├── views/               page components (Login, Dashboard, Crops, …)
+    ├── auth/                LoginForm, ProtectedRoute
+    ├── hooks/               useWeather, useRole
+    ├── utils/               validators, formatters, id, exportCsv
+    ├── assets/styles/       custom.css (dark mode, print, bootstrap overrides)
+    └── redux/               actions · api · reducers · selectors · middleware · store
+```
 
 ---
 
@@ -53,58 +99,59 @@ Open-Meteo (weather) · localStorage persistence · Jest tests
 
 ## Redux tree
 
+Every module follows the mandated flow: **component → thunk → `*_REQUEST` → api → `*_SUCCESS`/`*_FAILURE` → reducer**.
+
 ```
-src/store/
-├── index.js                  configureStore + devTools + middleware stack
-├── rootReducer.js            combineReducers of all 11 slices
+src/app/redux/
+├── utilities.js            REQUEST/SUCCESS/FAILURE helpers + every action-type constant
+│                           (CROP_REQUEST, ORDER_REQUEST, USER_REQUEST, WEATHER_REQUEST, UI, ALERT …)
+├── store/index.js          configureStore (serializableCheck off, devTools outside production)
+├── api/                    promise-based localStorage adapter → { data: { succeeded, message, data } }
+│   ├── index.js            KEYS, ok/bad, readList/writeList/readValue/writeValue/uid
+│   ├── crops|orders|buyers|tasks|expenses|inventory/
+│   ├── workers|attendance|equipment|maintenance/
+│   ├── users/              login/logout/session + user CRUD (built-in admin/manager accounts)
+│   ├── activity/           get/log/clear (max 300 entries)
+│   └── weather/            axios → Open-Meteo forecast (5-day), normalised payload
+├── actions/                thunks named GETCROPS/ADDCROP/UPDATECROP/REMOVECROP, SAVEBUYER,
+│                           ADDUSAGE, LOGIN/LOGOUT, FETCHWEATHER … all (data, moveToNext, failure)
+│                           └── ui/index.js plain creators: showToast, toggleTheme, dismissAlert …
 ├── reducers/
-│   ├── cropsReducer.js       crops/add · update · remove · setAll
-│   ├── ordersReducer.js      orders/add (computes total) · update · remove · setStatus
-│   ├── buyersReducer.js      buyers/add · update · remove · setAll
-│   ├── tasksReducer.js       tasks/add · update · remove · setStatus · setAll
-│   ├── expensesReducer.js    expenses/add · update · remove · setAll
-│   ├── inventoryReducer.js   inventory/add · update · remove · logUsage (decrements qty)
-│   ├── activityReducer.js    activity/append · setAll
-│   ├── alertsReducer.js      alerts/dismiss · restoreAll
-│   ├── authReducer.js        auth/loginSuccess · logout (session persisted)
-│   ├── uiReducer.js          ui/setTheme · toggleTheme · showToast · sidebar controls
-│   └── weatherReducer.js     weather/pending · fulfilled · rejected (fetchWeather)
-├── actions/                  thin re-exports of slice actions (10 modules)
-├── thunks/
-│   ├── fetchWeather.js       async: Open-Meteo forecast → weather/fulfilled
-│   ├── loadFromStorage.js    async: hydrate all slices from localStorage (seed fallback)
-│   └── saveBuyer.js          async: validates stock + duplicate CNIC → add/update buyer
-├── selectors/
-│   ├── entitySelectors.js    raw state accessors + selectCanModify (role gate)
-│   ├── cropSelectors.js      stock rows, available stock, crop options, health counts
-│   ├── buyerSelectors.js     debounced search by name/CNIC/crop
-│   ├── summarySelectors.js   harvest/orders summaries, dashboard stats, chart series
-│   ├── taskSelectors.js      task rows + computed Overdue, status counts
-│   ├── reportSelectors.js    available months, monthly report, recent activity
-│   ├── weatherSelectors.js   current weather, forecast, humidity level
-│   ├── selectLowStock.js     low-stock items, stock status, type counts, usage rows
-│   ├── selectDueCrops.js     cutting schedule / due crops
-│   ├── selectProfitByCrop.js profit by crop, totals, 6-month P&L series
-│   └── selectAlerts.js       combined alerts (weather + low stock + overdue + due crops)
+│   ├── factory.js          createCrudReducer — 12 CRUD flags (get/add/update/remove × request/success/failure)
+│   ├── crops|orders|buyers|tasks|expenses|workers|attendance|equipment|maintenance/
+│   ├── inventory/          items + usageHistory (usage decrements stock in the api)
+│   ├── user/               { user:{username,role,displayName}, loginLoading, loginError, users[] }
+│   ├── weather/            { status, data, error, lastUpdated }
+│   ├── activity/           { logs[] }   alerts/ { dismissed[] }   ui/ { theme, toast, sidebar }
+│   └── index.js            combineReducers — 15 slices
+├── selectors/              components read state only through selectors
+│   ├── entitySelectors.js  selectCropItems, selectWorkerItems, selectCurrentRole, selectCanModify …
+│   ├── cropSelectors.js    stock rows, available stock, options, health counts, filters
+│   ├── buyerSelectors|taskSelectors|summarySelectors|reportSelectors|weatherSelectors
+│   └── selectAlerts|selectLowStock|selectDueCrops|selectProfitByCrop
 └── middleware/
-    ├── persistMiddleware.js  after every action → write the changed slice to localStorage
-    └── activityLogger.js     auto-records user actions for the activity log
+    ├── persistMiddleware.js  only *_success actions → write the changed namespace to localStorage
+    └── activityLogger.js     *_success add/edit/delete/login → LOGACTIVITY thunk → activity log
 ```
 
 ## Data flow
 
 ```
 component
-   │  dispatch(action | thunk)
+   │  dispatch(ADDCROP(data, moveToNext, failure))
    ▼
-store middleware
-   │  activityLogger  → appends activity entry
-   │  persistMiddleware → writes changed slice to localStorage (agri_*)
+thunk (actions/crops)
+   │  dispatch(CROP_REQUEST.ADD_CROP_REQUEST)
+   │  api.save(data)  →  { data: { succeeded, message, data } }
    ▼
-reducer (immer update, action types "namespace/action")
+SUCCESS / FAILURE
+   │  moveToNext(data) | failure(message)   → component shows the right toast
    ▼
-selector (memoized createSelector — derived values: available stock,
-          computed Overdue, summaries, chart series …)
+reducer (factory flags + list update, type "crops/add_success")
+   │  activityLogger  → appends an activity entry
+   │  persistMiddleware → writes the namespace to localStorage (agri_*)
+   ▼
+selector (memoized — available stock, overdue, summaries, chart series …)
    ▼
 component re-renders
 ```
@@ -112,23 +159,26 @@ component re-renders
 * Components never read `state.x` directly — always through selectors.
 * Derived data (stock = harvestQty − sold, overdue = dueDate < today, summaries)
   is computed only in selectors, never stored.
-* Hydration: `loadFromStorage` thunk on app start → localStorage or demo seed.
+* Rehydration on app start: `RESTORESESSION` + `GETCROPS/GETORDERS/…/GETACTIVITY`
+  dispatched from `src/index.js` (api reads localStorage, falls back to demo seeds).
 
 ### localStorage keys
 
 `agri_crops`, `agri_orders`, `agri_buyers`, `agri_tasks`, `agri_expenses`,
-`agri_inventory` ({items, usage}), `agri_activity`, `agri_session`, `agri_ui` (theme + sidebar)
+`agri_inventory` ({items, usageHistory}), `agri_workers`, `agri_attendance`,
+`agri_equipment`, `agri_maintenance`, `agri_activity`, `agri_session`
+({user:{username,role,displayName}}), `agri_users`, `agri_alerts`, `agri_ui` (theme + sidebar)
 
 ## Weather
 
-Open-Meteo forecast for *Green Valley Farms, Punjab* (lat 31.5204, lon 74.3587),
-auto-refreshed every 10 minutes via `useWeather` hook + `fetchWeather` thunk.
+Open-Meteo forecast for *Green Valley Farms, Punjab* (lat 31.5204, lon 74.3587) fetched with **axios**,
+auto-refreshed every 10 minutes via the `useWeather` hook + `FETCHWEATHER` thunk.
 
 ## Validation
 
-Every form validates inline with `src/utils/validators.js` (required, CNIC = 13 digits with
+Every form validates inline with `src/app/utils/validators.js` (required, CNIC = 13 digits with
 live dash formatting, quantity ≤ available stock, dates, amounts, image JPG/PNG ≤ 1 MB)
-plus success/error toasts via `ui/showToast`.
+plus success/error toasts via `showToast`.
 
 ## Tests
 
@@ -138,6 +188,7 @@ plus success/error toasts via `ui/showToast`.
 CI=true npm test -- --watchAll=false
 ```
 
-## Live demo
+## Links
 
-https://hamnayahya416-sketch.github.io/agriculture-management-system/
+- **Live website:** https://hamnayahya416-sketch.github.io/agriculture-management-system/
+- **GitHub repository:** https://github.com/hamnayahya416-sketch/agriculture-management-system
