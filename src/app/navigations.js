@@ -1,11 +1,14 @@
 import {
   IconBox,
+  IconCalendarCheck,
   IconCart,
   IconClock,
   IconGrid,
   IconLayers,
+  IconRefresh,
   IconSprout,
   IconTrend,
+  IconTruck,
   IconUsers,
 } from "./components/common/icons.js";
 
@@ -21,6 +24,8 @@ export const NAV = [
       { to: "/harvest-orders", label: "Harvest and Orders", icon: IconCart },
       { to: "/buyers", label: "Buyers", icon: IconUsers },
       { to: "/tasks", label: "Tasks", icon: IconClock },
+      { to: "/workers", label: "Workers", icon: IconUsers },
+      { to: "/attendance", label: "Attendance", icon: IconCalendarCheck },
     ],
   },
   {
@@ -28,6 +33,8 @@ export const NAV = [
     items: [
       { to: "/expenses", label: "Expenses", icon: IconTrend },
       { to: "/inventory", label: "Inventory", icon: IconBox },
+      { to: "/equipment", label: "Equipment", icon: IconTruck },
+      { to: "/maintenance", label: "Maintenance", icon: IconRefresh },
       { to: "/reports", label: "Reports", icon: IconLayers },
     ],
   },
@@ -39,8 +46,12 @@ export const PAGE_TITLES = {
   "/harvest-orders": "Harvest and Orders",
   "/buyers": "Buyers",
   "/tasks": "Tasks",
+  "/workers": "Workers",
+  "/attendance": "Attendance",
   "/expenses": "Expenses",
   "/inventory": "Inventory",
+  "/equipment": "Equipment",
+  "/maintenance": "Maintenance",
   "/reports": "Reports",
   "/login": "Login",
 };

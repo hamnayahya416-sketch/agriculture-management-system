@@ -10,6 +10,10 @@ import Buyers from "./views/Buyers.js";
 import Tasks from "./views/Tasks.js";
 import Expenses from "./views/Expenses.js";
 import Inventory from "./views/Inventory.js";
+import Workers from "./views/Workers.js";
+import Attendance from "./views/Attendance.js";
+import Equipment from "./views/Equipment.js";
+import Maintenance from "./views/Maintenance.js";
 import Reports from "./views/Reports.js";
 import NotFound from "./views/NotFound.js";
 
@@ -29,6 +33,10 @@ export default function App() {
             <Route path="/tasks" element={<Tasks />} />
             <Route path="/expenses" element={<Expenses />} />
             <Route path="/inventory" element={<Inventory />} />
+            <Route path="/workers" element={<Workers />} />
+            <Route path="/attendance" element={<Attendance />} />
+            <Route path="/equipment" element={<Equipment />} />
+            <Route path="/maintenance" element={<Maintenance />} />
             <Route path="/reports" element={<Reports />} />
             <Route path="*" element={<NotFound />} />
           </Route>
