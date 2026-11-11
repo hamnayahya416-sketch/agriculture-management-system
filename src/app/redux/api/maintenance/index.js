@@ -1,7 +1,8 @@
 import { KEYS, ok, bad, readList, writeList } from "../index.js";
+import { SEED_MAINTENANCE } from "../../../../fake-db/seedData.js";
 import { nextPrefixedId } from "../../../utils/id.js";
 
-const read = () => readList(KEYS.maintenance, []);
+const read = () => readList(KEYS.maintenance, SEED_MAINTENANCE);
 
 export function getAll() {
   return ok(read(), "Services loaded.");

@@ -91,3 +91,39 @@ export function validateLogin(username, password) {
 export function hasErrors(errors) {
   return Object.keys(errors).length > 0;
 }
+
+/* Phone: +country or plain digits, 7–15 digits total (E.164 friendly). */
+export function validatePhone(value) {
+  const raw = String(value || "").trim();
+  if (!raw) return "Phone number is required.";
+  if (!/^\+?[0-9\s\-()]{7,20}$/.test(raw)) {
+    return "Phone must contain only digits, spaces, +, - or ().";
+  }
+  const digits = digitsOf(raw);
+  if (digits.length < 7 || digits.length > 15) {
+    return "Phone number must be between 7 and 15 digits.";
+  }
+  return null;
+}
+
+/* Daily/period wage: a positive number, optionally with up to 2 decimals. */
+export function validateWage(value) {
+  if (value === "" || value === null || value === undefined) return "Wage is required.";
+  const wage = Number(value);
+  if (!Number.isFinite(wage)) return "Wage must be a number.";
+  if (wage <= 0) return "Wage must be greater than 0.";
+  if (wage > 1000000) return "Wage looks too large.";
+  return null;
+}
+
+/* Equipment service interval: whole days between 1 and 365. */
+export function validateServiceInterval(value) {
+  if (value === "" || value === null || value === undefined) {
+    return "Service interval is required.";
+  }
+  const days = Number(value);
+  if (!Number.isFinite(days)) return "Service interval must be a number.";
+  if (!Number.isInteger(days)) return "Service interval must be whole days.";
+  if (days < 1 || days > 365) return "Service interval must be between 1 and 365 days.";
+  return null;
+}

@@ -1,7 +1,8 @@
 import { KEYS, ok, bad, readList, writeList } from "../index.js";
+import { SEED_EQUIPMENT } from "../../../../fake-db/seedData.js";
 import { nextPrefixedId } from "../../../utils/id.js";
 
-const read = () => readList(KEYS.equipment, []);
+const read = () => readList(KEYS.equipment, SEED_EQUIPMENT);
 
 export function getAll() {
   return ok(read(), "Equipments loaded.");
