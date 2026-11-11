@@ -90,6 +90,57 @@ export const SEED_ACTIVITY = [
 
 export const SEED_SESSION = null;
 
+/* ------------------------------------------------------------- workers */
+export const SEED_WORKERS = [
+  { id: "WRK-01", name: "Rafiq Ahmed", phone: "+92 300 1234567", job: "Field Supervisor", wage: 1800, status: "Active", joinedDate: monthOffsetIso(-16, 1), notes: "Irrigation + spraying" },
+  { id: "WRK-02", name: "Nasreen Bibi", phone: "+92 321 7654321", job: "Harvest Crew", wage: 1200, status: "Active", joinedDate: monthOffsetIso(-9, 5), notes: "" },
+  { id: "WRK-03", name: "Imran Ali", phone: "+92 333 1122334", job: "Tractor Operator", wage: 2200, status: "Active", joinedDate: monthOffsetIso(-24, 12), notes: "Licensed driver" },
+  { id: "WRK-04", name: "Sadia Hussain", phone: "+92 345 5566778", job: "Greenhouse Crew", wage: 1300, status: "Active", joinedDate: monthOffsetIso(-5, 20), notes: "" },
+  { id: "WRK-05", name: "Mehar Zaman", phone: "+92 301 9988776", job: "Watchman", wage: 1000, status: "Active", joinedDate: monthOffsetIso(-30, 2), notes: "Night shift" },
+  { id: "WRK-06", name: "Bilal Shaikh", phone: "+92 322 4455661", job: "Harvest Crew", wage: 1200, status: "Inactive", joinedDate: monthOffsetIso(-12, 8), notes: "On leave" },
+];
+
+/* Attendance for the last 7 days so charts and wages have history. */
+function buildSeedAttendance() {
+  const pattern = ["Present", "Present", "Present", "Absent", "Present", "Leave", "Present"];
+  const records = [];
+  let counter = 1;
+  for (let daysBack = 6; daysBack >= 0; daysBack -= 1) {
+    SEED_WORKERS.forEach((worker, index) => {
+      if (worker.status === "Inactive" && daysBack > 2) return;
+      const status = pattern[(index + daysBack) % pattern.length];
+      if (worker.status === "Inactive" && status === "Present") return;
+      records.push({
+        id: `ATT-${String(counter).padStart(3, "0")}`,
+        workerId: worker.id,
+        date: dayOffsetIso(-daysBack),
+        status,
+        note: "",
+      });
+      counter += 1;
+    });
+  }
+  return records;
+}
+
+export const SEED_ATTENDANCE = buildSeedAttendance();
+
+/* ----------------------------------------------------------- equipment */
+export const SEED_EQUIPMENT = [
+  { id: "EQP-01", name: "Massey Ferguson 385", type: "Tractor", status: "Operational", purchaseDate: monthOffsetIso(-36, 1), lastServiceDate: dayOffsetIso(-45), serviceIntervalDays: 60, notes: "Primary tillage" },
+  { id: "EQP-02", name: "New Holland CR8.90", type: "Harvester", status: "Operational", purchaseDate: monthOffsetIso(-24, 10), lastServiceDate: dayOffsetIso(-75), serviceIntervalDays: 90, notes: "Wheat season" },
+  { id: "EQP-03", name: "DripLine Turbo Pump", type: "Water Pump", status: "Under Repair", purchaseDate: monthOffsetIso(-18, 3), lastServiceDate: dayOffsetIso(-120), serviceIntervalDays: 60, notes: "Seal leak at North Field" },
+  { id: "EQP-04", name: "Seed Drill JD 1590", type: "Implement", status: "Operational", purchaseDate: monthOffsetIso(-20, 15), lastServiceDate: dayOffsetIso(-25), serviceIntervalDays: 60, notes: "" },
+  { id: "EQP-05", name: "Knapsack Sprayer Pro", type: "Sprayer", status: "Idle", purchaseDate: monthOffsetIso(-8, 6), lastServiceDate: dayOffsetIso(-150), serviceIntervalDays: 120, notes: "Back-up unit" },
+];
+
+export const SEED_MAINTENANCE = [
+  { id: "SVC-01", equipmentId: "EQP-01", date: dayOffsetIso(-45), type: "Service", cost: 18500, technician: "Zahid Autos", notes: "Engine oil, filters, grease" },
+  { id: "SVC-02", equipmentId: "EQP-02", date: dayOffsetIso(-75), type: "Inspection", cost: 4500, technician: "HarvestCare", notes: "Threshing drum check" },
+  { id: "SVC-03", equipmentId: "EQP-04", date: dayOffsetIso(-25), type: "Repair", cost: 7200, technician: "Farm Workshop", notes: "Replaced disc opener bearings" },
+  { id: "SVC-04", equipmentId: "EQP-03", date: dayOffsetIso(-120), type: "Service", cost: 3600, technician: "AquaTech", notes: "Impeller cleaning" },
+];
+
 export function buildSeedData() {
   return {
     crops: SEED_CROPS,
@@ -98,6 +149,10 @@ export function buildSeedData() {
     tasks: SEED_TASKS,
     expenses: SEED_EXPENSES,
     inventory: SEED_INVENTORY,
+    workers: SEED_WORKERS,
+    attendance: SEED_ATTENDANCE,
+    equipment: SEED_EQUIPMENT,
+    maintenance: SEED_MAINTENANCE,
     activity: SEED_ACTIVITY,
     session: SEED_SESSION,
     ui: { theme: "light", sidebarCollapsed: false },

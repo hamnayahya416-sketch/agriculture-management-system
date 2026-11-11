@@ -1,7 +1,8 @@
 import { KEYS, ok, bad, readList, writeList } from "../index.js";
+import { SEED_WORKERS } from "../../../../fake-db/seedData.js";
 import { nextPrefixedId } from "../../../utils/id.js";
 
-const read = () => readList(KEYS.workers, []);
+const read = () => readList(KEYS.workers, SEED_WORKERS);
 
 export function getAll() {
   return ok(read(), "Workers loaded.");

@@ -1,7 +1,8 @@
 import { KEYS, ok, bad, readList, writeList } from "../index.js";
+import { SEED_ATTENDANCE } from "../../../../fake-db/seedData.js";
 import { nextPrefixedId } from "../../../utils/id.js";
 
-const read = () => readList(KEYS.attendance, []);
+const read = () => readList(KEYS.attendance, SEED_ATTENDANCE);
 
 function hasDuplicate(list, workerId, date, ignoreId) {
   return list.some(
