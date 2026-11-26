@@ -88,6 +88,33 @@ export function validateLogin(username, password) {
   return errors;
 }
 
+/* Account username: 3–20 lowercase characters (matches the backend rule). */
+export function validateUsername(value) {
+  const name = String(value || "").trim();
+  if (!name) return "Username is required.";
+  if (name.length < 3) return "Username must be at least 3 characters.";
+  if (name.length > 20) return "Username must be at most 20 characters.";
+  if (!/^[a-z0-9_.]+$/.test(name)) {
+    return "Only lowercase letters, numbers, _ and . are allowed.";
+  }
+  return null;
+}
+
+export function validatePassword(value) {
+  const pass = String(value || "");
+  if (!pass) return "Password is required.";
+  if (pass.length < 6) return "Password must be at least 6 characters.";
+  if (pass.length > 72) return "Password must be at most 72 characters.";
+  return null;
+}
+
+export function validateEmail(value) {
+  const email = String(value || "").trim();
+  if (!email) return "Email is required.";
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return "Please enter a valid email address.";
+  return null;
+}
+
 export function hasErrors(errors) {
   return Object.keys(errors).length > 0;
 }
