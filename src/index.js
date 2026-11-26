@@ -7,7 +7,6 @@ import "./index.css";
 import "./app/assets/styles/custom.css";
 import store from "./app/redux/store/index.js";
 import {
-  RESTORESESSION,
   GETCROPS,
   GETORDERS,
   GETBUYERS,
@@ -21,9 +20,19 @@ import {
   GETACTIVITY,
 } from "./app/redux/actions/index.js";
 import App from "./app/App.jsx";
+import { onUnauthorized } from "./app/redux/api/http.js";
+import { USER_REQUEST } from "./app/redux/utilities.js";
+import { showToast } from "./app/redux/actions/ui/index.js";
+
+/* An expired/invalid JWT signs the user out and explains why. */
+onUnauthorized(() => {
+  store.dispatch({ type: USER_REQUEST.LOGOUT_SUCCESS });
+  store.dispatch(
+    showToast({ tone: "error", message: "Your session has expired. Please sign in again." })
+  );
+});
 
 /* Rehydrate every slice through its GET thunk (api -> SUCCESS -> reducer). */
-store.dispatch(RESTORESESSION());
 store.dispatch(GETCROPS());
 store.dispatch(GETORDERS());
 store.dispatch(GETBUYERS());
