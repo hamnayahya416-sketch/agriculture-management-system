@@ -123,8 +123,6 @@ export const ACTIVITY_REQUEST = {
 
 /* ------------------------------------------------------------------ ui */
 export const UI = {
-  TOGGLETHEME: "ui/toggle_theme",
-  SETTHEME: "ui/set_theme",
   SHOWTOAST: "ui/show_toast",
   HIDETOAST: "ui/hide_toast",
   TOGGLESIDEBAR: "ui/toggle_sidebar",
