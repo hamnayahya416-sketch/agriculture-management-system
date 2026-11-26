@@ -11,6 +11,7 @@ import CuttingSchedule from "../components/dashboard/CuttingSchedule.js";
 import { selectDashboardStats } from "../redux/selectors/summarySelectors.js";
 import { selectLowStock } from "../redux/selectors/selectLowStock.js";
 import { selectRecentActivity } from "../redux/selectors/reportSelectors.js";
+import { useAuth } from "../auth/AuthContext.js";
 import {
   formatNumber,
   formatTonnes,
@@ -24,6 +25,7 @@ import {
   IconBox,
   IconMap,
   IconPlus,
+  IconShield,
   IconSprout,
   IconTrend,
 } from "../components/common/icons.js";
@@ -32,6 +34,7 @@ export default function Dashboard() {
   const stats = useSelector(selectDashboardStats);
   const lowStock = useSelector(selectLowStock);
   const activity = useSelector(selectRecentActivity);
+  const { isAdmin } = useAuth();
 
   return (
     <>
@@ -91,6 +94,22 @@ export default function Dashboard() {
       )}
 
       <div className="grid">
+        {isAdmin && (
+          <div className="span-12">
+            <Card
+              title="Administration"
+              subtitle="Admin-only tools — regular users do not see this card"
+            >
+              <div className="page-head__actions">
+                <Link className="btn" to="/users">
+                  <IconShield size={16} />
+                  Register / Manage Users
+                </Link>
+              </div>
+            </Card>
+          </div>
+        )}
+
         <div className="span-8">
           <CropHealthList />
         </div>
