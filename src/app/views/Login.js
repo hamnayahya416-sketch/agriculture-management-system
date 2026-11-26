@@ -1,11 +1,11 @@
-import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import LoginForm from "../auth/LoginForm.js";
-import { selectCurrentUser } from "../redux/selectors/entitySelectors.js";
+import { useAuth } from "../auth/AuthContext.js";
 import { IconLeaf } from "../components/common/icons.js";
 
 export default function Login() {
-  const user = useSelector(selectCurrentUser);
+  const { user } = useAuth();
+  /* Already signed in → straight to the (role aware) dashboard. */
   if (user) return <Navigate to="/dashboard" replace />;
 
   return (
