@@ -38,9 +38,9 @@ export const SEED_ORDERS = [
 ];
 
 export const SEED_BUYERS = [
-  { id: "BYR-101", name: "Ayesha Khan", cnic: "3520244719832", imageBase64: avatarUrl("AK", "#00AB41"), cropId: 1, quantity: 500, date: monthOffsetIso(0, 12) },
-  { id: "BYR-102", name: "Bilal Ahmed", cnic: "4210198765435", imageBase64: avatarUrl("BA", "#008631"), cropId: 3, quantity: 300, date: monthOffsetIso(0, 15) },
-  { id: "BYR-103", name: "Sana Iqbal", cnic: "6110155667789", imageBase64: avatarUrl("SI", "#7c3aed"), cropId: 6, quantity: 450, date: dayOffsetIso(-3) },
+  { id: "BYR-101", name: "Ayesha Khan", cnic: "3520244719832", imageBase64: avatarUrl("AK", "#0C3D27"), cropId: 1, quantity: 500, date: monthOffsetIso(0, 12) },
+  { id: "BYR-102", name: "Bilal Ahmed", cnic: "4210198765435", imageBase64: avatarUrl("BA", "#14603A"), cropId: 3, quantity: 300, date: monthOffsetIso(0, 15) },
+  { id: "BYR-103", name: "Sana Iqbal", cnic: "6110155667789", imageBase64: avatarUrl("SI", "#1A6E46"), cropId: 6, quantity: 450, date: dayOffsetIso(-3) },
 ];
 
 export const SEED_TASKS = [
@@ -106,10 +106,11 @@ function buildSeedAttendance() {
   const records = [];
   let counter = 1;
   for (let daysBack = 6; daysBack >= 0; daysBack -= 1) {
-    SEED_WORKERS.forEach((worker, index) => {
-      if (worker.status === "Inactive" && daysBack > 2) return;
+    for (let index = 0; index < SEED_WORKERS.length; index += 1) {
+      const worker = SEED_WORKERS[index];
+      if (worker.status === "Inactive" && daysBack > 2) continue;
       const status = pattern[(index + daysBack) % pattern.length];
-      if (worker.status === "Inactive" && status === "Present") return;
+      if (worker.status === "Inactive" && status === "Present") continue;
       records.push({
         id: `ATT-${String(counter).padStart(3, "0")}`,
         workerId: worker.id,
@@ -118,7 +119,7 @@ function buildSeedAttendance() {
         note: "",
       });
       counter += 1;
-    });
+    }
   }
   return records;
 }
