@@ -6,6 +6,7 @@ import {
   IconGrid,
   IconLayers,
   IconRefresh,
+  IconShield,
   IconSprout,
   IconTrend,
   IconTruck,
@@ -38,6 +39,17 @@ export const NAV = [
       { to: "/reports", label: "Reports", icon: IconLayers },
     ],
   },
+  {
+    group: "Administration",
+    items: [
+      {
+        to: "/users",
+        label: "Register / Manage Users",
+        icon: IconShield,
+        roles: ["admin"],
+      },
+    ],
+  },
 ];
 
 export const PAGE_TITLES = {
@@ -52,6 +64,7 @@ export const PAGE_TITLES = {
   "/inventory": "Inventory",
   "/equipment": "Equipment",
   "/maintenance": "Maintenance",
+  "/users": "Register / Manage Users",
   "/reports": "Reports",
   "/login": "Login",
 };
